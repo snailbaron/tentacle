@@ -1,0 +1,3 @@
+[submodule "deps/argo"]
+	path = deps/argo
+	url = https://github.com/ecosnail/argo
