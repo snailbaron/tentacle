@@ -17,6 +17,9 @@ def Settings(**kwargs):
         "-isystem", "/usr/include",
 
         "-I", SCRIPT_DIR + "/deps/argo/include",
+
+        # TODO: better solution: find closest CMakeLists.txt
+        "-I", os.path.dirname(kwargs["filename"]) + "/include",
     ]
 
     return {"flags": flags}

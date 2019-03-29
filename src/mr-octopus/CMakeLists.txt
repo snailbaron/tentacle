@@ -9,9 +9,6 @@ add_executable (mr-octopus
     widgets.cpp
 )
 
-set_property (TARGET mr-octopus PROPERTY CXX_STANDARD 17)
-set_property (TARGET mr-octopus PROPERTY CXX_STANDARD_REQUIRED TRUE)
-
 target_link_libraries (mr-octopus PRIVATE stdc++fs)
 
 find_package (SDL2 REQUIRED)
@@ -24,3 +21,11 @@ find_path (SDL2_IMAGE_INCLUDES SDL2/SDL_image.h)
 find_library (SDL2_IMAGE_LIBRARY SDL2_image)
 target_include_directories (mr-octopus PRIVATE ${SDL2_IMAGE_INCLUDES})
 target_link_libraries (mr-octopus PRIVATE ${SDL2_IMAGE_LIBRARY})
+
+add_custom_command (
+    TARGET mr-octopus
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E create_symlink
+        "$<TARGET_FILE:mr-octopus>"
+        "${PROJECT_BINARY_DIR}/$<TARGET_FILE_NAME:mr-octopus>"
+)
