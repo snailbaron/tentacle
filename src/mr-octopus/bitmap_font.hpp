@@ -5,19 +5,13 @@
 #include <filesystem>
 
 class BitmapFont {
-    BitmapFont(
-        SDL_Renderer* renderer,
-        const std::filesystem::path& bitmapPath,
-        int cellWidth,
-        int cellHeight,
-        int bitmapWidth,
-        int bitmapHeight);
-
+public:
+    BitmapFont(SDL_Renderer* renderer, const std::filesystem::path& bitmapPath);
     ~BitmapFont();
 
     SDL_Rect operator[](char symbol) const;
+    SDL_Texture* texture() { return _texture; }
 
+private:
     SDL_Texture* _texture;
-
-    friend class Canvas;
 };

@@ -1,6 +1,6 @@
 #include "canvas.hpp"
 
-#include <SDL2_gfxPrimitives.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
 
 #include <cassert>
 
@@ -20,6 +20,11 @@ Canvas::Canvas()
         -1,
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     assert(_renderer);
+
+    for (size_t i = 0; i < assets::fontsCount(); i++) {
+        auto font = static_cast<assets::font>(i);
+        _fonts.insert({font, BitmapFont(_renderer, assets::path(font))});
+    }
 }
 
 Canvas::~Canvas()
@@ -92,7 +97,24 @@ void Canvas::drawFilledRectangle(
         color.r, color.g, color.b, color.a);
 }
 
-void Canvas::drawText(const BitmapFont& font, std::string_view text)
+void Canvas::drawText(
+    assets::font font,
+    const Point& position,
+    std::string_view text)
 {
-    //SDL_RenderCopy(_renderer, texture, srcrect, dstrect);
+    SDL_Rect dstRect {
+        static_cast<int>(position.x),
+        static_cast<int>(position.y),
+        5,
+        7};
+
+    auto& fontResource = _fonts.at(font);
+    auto fontTexture = fontResource.texture();
+    for (auto symbol : text) {
+        auto srcRect = fontResource[symbol];
+        //SDL_RenderCopy(_renderer, fontTexture, &srcRect, &dstRect);
+        SDL_RenderCopy(_renderer, fontTexture, nullptr, nullptr);
+        dstRect.x += 6;
+        dstRect.y += 8;
+    }
 }

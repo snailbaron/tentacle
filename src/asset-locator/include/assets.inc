@@ -1,0 +1,1 @@
+/home/snailbaron/code/tentacle/build/src/asset-locator/generated/assets.inc

@@ -24,4 +24,6 @@ void Button::draw(Canvas& canvas) const
 
     auto innerSize = Vector{_size.x - BorderWidth, _size.y - BorderWidth};
     canvas.drawFilledRectangle(_position, innerSize, Color::Yellow, 5);
+
+    canvas.drawText(assets::font::octo, {10, 10}, "abclskdjflkdjflksjdf");
 }

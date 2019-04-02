@@ -4,9 +4,12 @@
 #include "color.hpp"
 #include "geometry.hpp"
 
+#include <asset_locator.hpp>
+
 #include <SDL2/SDL.h>
 
 #include <vector>
+#include <map>
 
 class Canvas {
 public:
@@ -27,9 +30,14 @@ public:
         const Vector& size,
         const Color& color,
         Scalar cornerRadius = 0);
-    void drawText(const BitmapFont& font, std::string_view text);
+
+    void drawText(
+        assets::font font,
+        const Point& position,
+        std::string_view text);
 
 private:
     SDL_Window* _window;
     SDL_Renderer* _renderer;
+    std::map<assets::font, BitmapFont> _fonts;
 };

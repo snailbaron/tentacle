@@ -22,6 +22,8 @@ find_library (SDL2_IMAGE_LIBRARY SDL2_image)
 target_include_directories (mr-octopus PRIVATE ${SDL2_IMAGE_INCLUDES})
 target_link_libraries (mr-octopus PRIVATE ${SDL2_IMAGE_LIBRARY})
 
+target_link_libraries (mr-octopus PRIVATE asset-locator)
+
 add_custom_command (
     TARGET mr-octopus
     POST_BUILD
