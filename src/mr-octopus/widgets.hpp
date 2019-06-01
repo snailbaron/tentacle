@@ -1,7 +1,6 @@
 #pragma once
 
-#include "canvas.hpp"
-#include "geometry.hpp"
+#include <gfx/canvas.hpp>
 
 #include <string>
 
@@ -9,21 +8,21 @@ class Widget {
 public:
     virtual ~Widget() {}
 
-    virtual void draw(Canvas& canvas) const = 0;
+    virtual void draw(gfx::Canvas& canvas) const = 0;
 };
 
 class Button : public Widget {
 public:
-    Button& position(const Point& position);
-    Button& size(const Vector& size);
+    Button& position(const gfx::Point& position);
+    Button& size(const gfx::Vector& size);
     Button& text(std::string text);
 
-    void draw(Canvas& canvas) const override;
+    void draw(gfx::Canvas& canvas) const override;
 
 private:
-    static constexpr auto BorderWidth = Scalar{10};
+    static constexpr auto BorderWidth = 10;
 
-    Point _position;
-    Vector _size;
+    gfx::Point _position;
+    gfx::Vector _size;
     std::string _text;
 };

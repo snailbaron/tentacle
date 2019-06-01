@@ -1,4 +1,6 @@
-#include "color.hpp"
+#include <gfx/color.hpp>
+
+namespace gfx {
 
 // Source: https://en.wikipedia.org/wiki/Web_colors
 
@@ -163,3 +165,5 @@ const Color Color::LightSlateGray       { 119, 136, 153 };
 const Color Color::SlateGray            { 112, 128, 144 };
 const Color Color::DarkSlateGray        { 47,  79,  79  };
 const Color Color::Black                { 0,   0,   0   };
+
+} // namespace gfx

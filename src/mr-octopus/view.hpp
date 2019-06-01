@@ -1,6 +1,6 @@
 #pragma once
 
-#include "canvas.hpp"
+#include <gfx/canvas.hpp>
 #include "core.hpp"
 #include "widgets.hpp"
 
@@ -22,6 +22,6 @@ public:
 
 private:
     const Core& _core;
-    Canvas _canvas;
+    gfx::Canvas _canvas;
     std::vector<std::unique_ptr<Widget>> _widgets;
 };

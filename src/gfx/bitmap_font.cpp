@@ -1,12 +1,15 @@
-#include "bitmap_font.hpp"
+#include <gfx/bitmap_font.hpp>
 
 #include <SDL2/SDL_image.h>
 
 #include <cassert>
 #include <map>
 #include <initializer_list>
+#include <iostream>
 
 namespace fs = std::filesystem;
+
+namespace gfx {
 
 namespace {
 
@@ -50,16 +53,24 @@ SymbolMapContainer SymbolMap {
 } // namespace
 
 BitmapFont::BitmapFont(SDL_Renderer* renderer, const fs::path& bitmapPath)
+    : _texture(nullptr, SDL_DestroyTexture)
 {
     assert(fs::is_regular_file(bitmapPath));
     SDL_Surface* surface = IMG_Load(bitmapPath.string().c_str());
-    _texture = SDL_CreateTextureFromSurface(renderer, surface);
+    assert(surface);
+    _texture.reset(SDL_CreateTextureFromSurface(renderer, surface));
+    assert(_texture);
     SDL_FreeSurface(surface);
 }
 
-BitmapFont::~BitmapFont()
+int BitmapFont::charWidth() const
 {
-    SDL_DestroyTexture(_texture);
+    return CellWidth;
+}
+
+int BitmapFont::charHeight() const
+{
+    return CellHeight;
 }
 
 SDL_Rect BitmapFont::operator[](char symbol) const
@@ -72,3 +83,10 @@ SDL_Rect BitmapFont::operator[](char symbol) const
         CellHeight - HeightBorder,
     };
 }
+
+SDL_Texture* BitmapFont::texture()
+{
+    return _texture.get();
+}
+
+} // namespace gfx

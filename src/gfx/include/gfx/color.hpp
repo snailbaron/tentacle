@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+namespace gfx {
+
 struct Color {
     // Pink colors
     static const Color Pink;
@@ -175,3 +177,4 @@ struct Color {
     uint8_t a;
 };
 
+} // namespace gfx

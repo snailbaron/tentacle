@@ -1,9 +1,5 @@
 add_executable (mr-octopus
-    bitmap_font.cpp
-    canvas.cpp
-    color.cpp
     core.cpp
-    geometry.cpp
     main.cpp
     view.cpp
     widgets.cpp
@@ -22,7 +18,9 @@ find_library (SDL2_IMAGE_LIBRARY SDL2_image)
 target_include_directories (mr-octopus PRIVATE ${SDL2_IMAGE_INCLUDES})
 target_link_libraries (mr-octopus PRIVATE ${SDL2_IMAGE_LIBRARY})
 
+target_link_libraries (mr-octopus PRIVATE ecosnail-flat)
 target_link_libraries (mr-octopus PRIVATE asset-locator)
+target_link_libraries (mr-octopus PRIVATE gfx)
 
 add_custom_command (
     TARGET mr-octopus

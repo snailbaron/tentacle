@@ -1,7 +1,8 @@
-#include "canvas.hpp"
 #include "core.hpp"
 #include "view.hpp"
 #include "widgets.hpp"
+
+#include <gfx/canvas.hpp>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -24,7 +25,7 @@ int main()
 
     view.addWidget<Button>()
         .position({800, 50})
-        .size({100, 50})
+        .size({200, 50})
         .text("exit");
 
     core.mrOctopus.position = {800, 200};

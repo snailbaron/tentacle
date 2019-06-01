@@ -1,8 +1,10 @@
-#include "canvas.hpp"
+#include <gfx/canvas.hpp>
 
 #include <SDL2/SDL2_gfxPrimitives.h>
 
 #include <cassert>
+
+namespace gfx {
 
 Canvas::Canvas()
 {
@@ -44,6 +46,12 @@ void Canvas::present()
     SDL_RenderPresent(_renderer);
 }
 
+void Canvas::drawLine(
+    const Point& p0, const Point& p1, const Color& c)
+{
+    thickLineRGBA(_renderer, p0.x, p0.y, p1.x, p1.y, 3, c.r, c.g, c.b, c.a);
+}
+
 void Canvas::drawMultiLine(const Point& base, const std::vector<Point>& line)
 {
     for (size_t i = 0; i + 1 < line.size(); ++i) {
@@ -71,7 +79,7 @@ void Canvas::drawRectangle(
     const Point& position,
     const Vector& size,
     const Color& color,
-    Scalar cornerRadius)
+    int cornerRadius)
 {
     auto corner = position - size / 2;
     roundedRectangleRGBA(
@@ -86,7 +94,7 @@ void Canvas::drawFilledRectangle(
     const Point& position,
     const Vector& size,
     const Color& color,
-    Scalar cornerRadius)
+    int cornerRadius)
 {
     auto corner = position - size / 2;
     roundedBoxRGBA(
@@ -98,23 +106,28 @@ void Canvas::drawFilledRectangle(
 }
 
 void Canvas::drawText(
-    assets::font font,
+    assets::font fontId,
     const Point& position,
-    std::string_view text)
+    std::string_view text,
+    int scale)
 {
-    SDL_Rect dstRect {
-        static_cast<int>(position.x),
-        static_cast<int>(position.y),
-        5,
-        7};
+    assert(scale >= 1);
 
-    auto& fontResource = _fonts.at(font);
-    auto fontTexture = fontResource.texture();
+    auto& font = _fonts.at(fontId);
+    auto x = position.x - static_cast<int>(
+        font.charWidth() * text.length() * scale / 2);
+    auto y = position.y - static_cast<int>(font.charHeight() * scale / 2);
+    SDL_Rect dstRect {x, y, 0, 0};
+
+    auto fontTexture = font.texture();
     for (auto symbol : text) {
-        auto srcRect = fontResource[symbol];
-        //SDL_RenderCopy(_renderer, fontTexture, &srcRect, &dstRect);
-        SDL_RenderCopy(_renderer, fontTexture, nullptr, nullptr);
-        dstRect.x += 6;
-        dstRect.y += 8;
+        auto srcRect = font[symbol];
+        dstRect.w = srcRect.w * scale;
+        dstRect.h = srcRect.h * scale;
+
+        SDL_RenderCopy(_renderer, fontTexture, &srcRect, &dstRect);
+        dstRect.x += dstRect.w + scale;
     }
 }
+
+} // namespace gfx
