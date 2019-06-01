@@ -1,9 +1,6 @@
 [submodule "deps/argo"]
 	path = deps/argo
 	url = https://github.com/ecosnail/argo
-[submodule "deps/tail"]
-	path = deps/tail
-	url = git@github.com:ecosnail/tail.git
 [submodule "deps/flat"]
 	path = deps/flat
 	url = git@github.com:ecosnail/flat.git
